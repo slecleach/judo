@@ -8,10 +8,13 @@ permissions:
   contents: read
 
 jobs:
-  say-hello:
-    name: Say Hello
-    runs-on: ubuntu-24.04
-
     steps:
-      - name: Print Hello World
+      - name: Check Actor
+        if: github.actor == 'slecleach'
         run: echo "Hello, World!"
+
+      - name: Deny Unauthorized User
+        if: github.actor != 'slecleach'
+        run: |
+          echo "This workflow can only be run by 'slecleach'."
+          exit 1
