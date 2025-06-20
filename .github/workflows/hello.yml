@@ -1,0 +1,16 @@
+name: Hello World Workflow
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  say-hello:
+    name: Say Hello
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Print Hello World
+        run: echo "Hello, World!"
