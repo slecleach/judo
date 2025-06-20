@@ -18,7 +18,7 @@ jobs:
         run: echo "Hello, World!"
 
       - name: Deny Unauthorized User
-        if: not contains('["alberthli", "slecleach", "pulbertson"]', github.actor)
+        if: ${{ not contains('["alberthli", "slecleach", "pulbertson"]', github.actor) }}
         run: |
           echo "This workflow can only be run by 'alberthli', 'slecleach', or 'pulbertson'."
           exit 1
