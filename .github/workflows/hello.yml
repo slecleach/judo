@@ -8,13 +8,13 @@ permissions:
   contents: read
 
 jobs:
-    steps:
-      - name: Check Actor
-        if: github.actor == 'slecleach'
-        run: echo "Hello, World!"
+  steps:
+    - name: Check Actor
+      if: github.actor == 'slecleach'
+      run: echo "Hello, World!"
 
-      - name: Deny Unauthorized User
-        if: github.actor != 'slecleach'
-        run: |
-          echo "This workflow can only be run by 'slecleach'."
-          exit 1
+    - name: Deny Unauthorized User
+      if: github.actor != 'slecleach'
+      run: |
+        echo "This workflow can only be run by 'slecleach'."
+        exit 1
