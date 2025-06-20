@@ -10,7 +10,7 @@ jobs:
   build-and-publish:
     name: Build and Publish to PyPI
     runs-on: ubuntu-24.04
-    if: contains(fromJson('["alberthli", "pculbertson"]'), github.actor)
+    if: github.actor == 'alberthli' || github.actor == 'pculbertson'
 
     steps:
       - name: Checkout code
