@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Check Actor
-        if: github.actor == 'slecleach'
+        if: contains('["alberthli", "slecleach", "pulbertson"]', github.actor)
         run: echo "Hello, World!"
 
       - name: Deny Unauthorized User
-        if: github.actor != 'slecleach'
+        if: not contains('["alberthli", "slecleach", "pulbertson"]', github.actor)
         run: |
-          echo "This workflow can only be run by 'slecleach'."
+          echo "This workflow can only be run by 'alberthli', 'slecleach', or 'pulbertson'."
           exit 1
