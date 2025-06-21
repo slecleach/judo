@@ -425,7 +425,7 @@ class VisualizationNode(DoraNode):
 
     def _remove_gui_elements(self) -> None:
         """Remove GUI elements from the visualization node."""
-        for v in self.gui_elements.items():
+        for v in self.gui_elements.values():
             if isinstance(v, list):
                 for handle in v:
                     self.remove_handles(handle)
