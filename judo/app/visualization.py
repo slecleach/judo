@@ -11,7 +11,7 @@ from dora_utils.dataclasses import from_arrow, to_arrow
 from dora_utils.node import DoraNode, on_event
 from omegaconf import DictConfig
 from PIL import Image
-from viser import GuiFolderHandle, GuiInputHandle, MeshHandle
+from viser import GuiFolderHandle, GuiImageHandle, GuiInputHandle, MeshHandle
 
 from judo import REPOSITORY_ROOT
 from judo.app.structs import MujocoState
@@ -23,7 +23,7 @@ from judo.optimizers import get_registered_optimizers
 from judo.tasks import get_registered_tasks
 from judo.visualizers.model import ViserMjModel
 
-ElementType = GuiInputHandle | GuiFolderHandle | MeshHandle
+ElementType = GuiImageHandle | GuiInputHandle | GuiFolderHandle | MeshHandle
 
 
 class VisualizationNode(DoraNode):
@@ -158,6 +158,7 @@ class VisualizationNode(DoraNode):
         # add the Judo logo
         logo_path = REPOSITORY_ROOT / "docs" / "source" / "_static" / "images" / "viser-logo-light.png"
         logo = self.server.gui.add_image(np.array(Image.open(logo_path)))
+        print("adding logo", type(logo))
         self.gui_elements["logo"] = logo
 
         # create the dropdown to select the task
@@ -167,6 +168,7 @@ class VisualizationNode(DoraNode):
             initial_value=self.task_name,
         )
         self.gui_elements["task"] = task_dropdown
+        print("adding task", type(task_dropdown))
 
         # create the dropdown to select the optimizer
         optimizer_dropdown = self.server.gui.add_dropdown(
@@ -424,7 +426,8 @@ class VisualizationNode(DoraNode):
 
     def _remove_gui_elements(self) -> None:
         """Remove GUI elements from the visualization node."""
-        for v in self.gui_elements.values():
+        for k, v in self.gui_elements.items():
+            print("removing", k, type(v))
             if isinstance(v, list):
                 for handle in v:
                     self.remove_handles(handle)
