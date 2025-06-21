@@ -53,7 +53,6 @@ class VisualizationNode(DoraNode):
 
         # starting the server
         self.server = viser.ViserServer()
-
         self.available_tasks = get_registered_tasks()
         self.available_optimizers = get_registered_optimizers()
         self.geom_exclude_substring = geom_exclude_substring
