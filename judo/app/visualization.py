@@ -13,7 +13,7 @@ from omegaconf import DictConfig
 from PIL import Image
 from viser import GuiFolderHandle, GuiInputHandle, MeshHandle
 
-from judo import PACKAGE_ROOT
+from judo import REPOSITORY_ROOT
 from judo.app.structs import MujocoState
 from judo.app.utils import register_optimizers_from_cfg, register_tasks_from_cfg
 from judo.config import set_config_overrides
@@ -53,7 +53,9 @@ class VisualizationNode(DoraNode):
 
         # starting the server
         self.server = viser.ViserServer()
-        logo_path = PACKAGE_ROOT / "docs" / "source" / "_static" / "images" / "logo-light.png"
+
+        # add the Judo logo
+        logo_path = REPOSITORY_ROOT / "docs" / "source" / "_static" / "images" / "viser-logo-light.png"
         logo = Image.open(logo_path)
         self.server.gui.add_image(np.array(logo))
 
