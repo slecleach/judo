@@ -4,13 +4,16 @@ import threading
 import warnings
 
 import mujoco
+import numpy as np
 import pyarrow as pa
 import viser
 from dora_utils.dataclasses import from_arrow, to_arrow
 from dora_utils.node import DoraNode, on_event
 from omegaconf import DictConfig
+from PIL import Image
 from viser import GuiFolderHandle, GuiInputHandle, MeshHandle
 
+from judo import PACKAGE_ROOT
 from judo.app.structs import MujocoState
 from judo.app.utils import register_optimizers_from_cfg, register_tasks_from_cfg
 from judo.config import set_config_overrides
@@ -50,6 +53,10 @@ class VisualizationNode(DoraNode):
 
         # starting the server
         self.server = viser.ViserServer()
+        logo_path = PACKAGE_ROOT / "docs" / "source" / "_static" / "images" / "logo-light.png"
+        logo = Image.open(logo_path)
+        self.server.gui.add_image(np.array(logo))
+
         self.available_tasks = get_registered_tasks()
         self.available_optimizers = get_registered_optimizers()
         self.geom_exclude_substring = geom_exclude_substring
