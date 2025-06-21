@@ -54,11 +54,6 @@ class VisualizationNode(DoraNode):
         # starting the server
         self.server = viser.ViserServer()
 
-        # add the Judo logo
-        logo_path = REPOSITORY_ROOT / "docs" / "source" / "_static" / "images" / "viser-logo-light.png"
-        logo = Image.open(logo_path)
-        self.server.gui.add_image(np.array(logo))
-
         self.available_tasks = get_registered_tasks()
         self.available_optimizers = get_registered_optimizers()
         self.geom_exclude_substring = geom_exclude_substring
@@ -159,6 +154,11 @@ class VisualizationNode(DoraNode):
     def setup_gui(self) -> None:
         """Set up the GUI for the visualization node."""
         self.gui_elements = {}
+
+        # add the Judo logo
+        logo_path = REPOSITORY_ROOT / "docs" / "source" / "_static" / "images" / "viser-logo-light.png"
+        logo = self.server.gui.add_image(np.array(Image.open(logo_path)))
+        self.gui_elements["logo"] = logo
 
         # create the dropdown to select the task
         task_dropdown = self.server.gui.add_dropdown(
