@@ -31,8 +31,7 @@ jobs:
 
       - name: Run tests with coverage
         run: >
-          pixi run -e dev pytest --cov=judo --cov-branch
-          --cov-report=xml -rsx
+          pixi run -e dev pytest --cov=judo --cov-branch --cov-report=xml -rsx
 
       - name: Upload coverage reports to Codecov
         if: ${{ !cancelled() }}
