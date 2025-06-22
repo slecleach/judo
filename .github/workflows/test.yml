@@ -30,10 +30,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Run tests with coverage
-        run: pixi run -e dev pytest --cov --junitxml=junit.xml -o junit_family=legacy -rsx
+        run: >
+          pixi run -e dev pytest --cov=judo --cov-branch
+          --cov-report=xml -rsx
 
-      - name: Upload test results to Codecov
+      - name: Upload coverage reports to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
