@@ -476,7 +476,15 @@ def add_segments(
         line_width: width of the line, in pixels
         visible: whether or not the lines are initially visible
     """
-    return target.scene.add_line_segments(name, points, rgb, line_width, quat, pos, visible)
+    return target.scene.add_line_segments(
+        name,
+        points,
+        rgb,
+        line_width=line_width,
+        wxyz=quat,
+        position=pos,
+        visible=visible,
+    )
 
 
 def set_mesh_color(mesh: trimesh.Trimesh, rgba: np.ndarray) -> None:
@@ -495,18 +503,14 @@ def set_mesh_color(mesh: trimesh.Trimesh, rgba: np.ndarray) -> None:
     )
 
 
-def set_spline_positions(
+def set_spline_points(
     handle: SplineCatmullRomHandle,
-    positions: tuple[tuple[float, float, float], ...] | np.ndarray,
+    points: tuple[tuple[float, float, float], ...] | np.ndarray,
 ) -> None:
     """Set the spline waypoints."""
-    # TODO (slecleach): PR this into Viser, look at example from MeshSkinnedBoneHandle
-    if isinstance(positions, np.ndarray):
-        assert len(positions.shape) == 2 and positions.shape[1] == 3
-        positions = tuple(map(tuple, positions))  # type: ignore
-    assert len(positions[0]) == 3
-    assert isinstance(positions, tuple)
-    handle.positions = positions
+    points = np.asarray(points)
+    assert len(points[0]) == 3 and len(points.shape) == 2
+    handle.points = points
 
 
 def set_segment_points(handle: LineSegmentsHandle, points: np.ndarray) -> None:
