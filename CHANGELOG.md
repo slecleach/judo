@@ -3,6 +3,9 @@
 ## Fixed
 * Fixed bug after spec changes where unnamed geoms were causing `judo` to crash (@alberthli, @pculbertson, #72)
 
+## Dev
+Bump version to 0.0.4 in pyproject.toml (@alberthli, #73)
+
 # v0.0.3
 
 ## Added
