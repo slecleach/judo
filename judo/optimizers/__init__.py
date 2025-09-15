@@ -9,6 +9,7 @@ from judo.optimizers.overrides import (
     set_default_caltech_leap_cube_overrides,
     set_default_cartpole_overrides,
     set_default_cylinder_push_overrides,
+    set_default_fr3_bimanual_pick_overrides,
     set_default_fr3_pick_overrides,
     set_default_leap_cube_down_overrides,
     set_default_leap_cube_overrides,
@@ -18,6 +19,7 @@ from judo.optimizers.ps import PredictiveSampling, PredictiveSamplingConfig
 set_default_caltech_leap_cube_overrides()
 set_default_cartpole_overrides()
 set_default_cylinder_push_overrides()
+set_default_fr3_bimanual_pick_overrides()
 set_default_fr3_pick_overrides()
 set_default_leap_cube_overrides()
 set_default_leap_cube_down_overrides()
