@@ -12,10 +12,21 @@ from judo.gui import slider
 from judo.tasks.base import Task, TaskConfig
 from judo.utils.fields import np_1d_field
 
+# TODOS
+# add trace for second arm DONE
+# add collision avoidance reward DONE
+# speed up the physics DONE
+# remove the gripper from both arms DONE
+# add a watter jug
+# create a pick, lift and drop onto shelf task
+# create a state machine for grasp object, use object to pull another object WONT DO
+
+
+BOX_SIZE = 0.02
 XML_PATH = str(MODEL_PATH / "xml/fr3_bimanual_pick.xml")
 QPOS_HOME = np.array(
     [
-        0.7, 0, 0.02, 1, 0, 0, 0,  # object
+        0.7, 0, BOX_SIZE, 1, 0, 0, 0,  # object
         0, -0.7854, 0.0, -2.3562, 0.0, 1.5708, 0.7854,  # arm
         0.04, 0.04,  # gripper, equality constrained
         0, -0.7854, 0.0, -2.3562, 0.0, 1.5708, 0.7854,  # arm_bis
@@ -75,6 +86,7 @@ class GlobalConfig:
     w_coll: float = 0.1
     w_qvel: float = 0.005
     w_open: float = 2.0
+    w_collision_avoidance: float = 5.0
 
 
 @slider("goal_radius", 0.005, 0.1, 0.005)
@@ -127,15 +139,57 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         arm_pos_adr = self.get_joint_position_start_index("fr3_joint1")
         self.arm_pos_slice = slice(arm_pos_adr, arm_pos_adr + 9)  # 7 + 2 dofs for the gripper
 
+        arm_bis_pos_adr = self.get_joint_position_start_index("_fr3_joint1")
+        self.arm_bis_pos_slice = slice(arm_bis_pos_adr, arm_bis_pos_adr + 9)  # 7 + 2 dofs for the gripper
+
         # sensors
         self.left_finger_obj_adr = self.get_sensor_start_index("left_finger_obj")
         self.right_finger_obj_adr = self.get_sensor_start_index("right_finger_obj")
         self.left_finger_table_adr = self.get_sensor_start_index("left_finger_table")
         self.right_finger_table_adr = self.get_sensor_start_index("right_finger_table")
         self.grasp_site_adr = self.get_sensor_start_index("trace_grasp_site")
-        self.obj_table_adr = self.get_sensor_start_index("obj_table")
         self.ee_z_adr = self.get_sensor_start_index("ee_z")
         self.ee_z_slice = slice(self.ee_z_adr, self.ee_z_adr + 3)
+
+        self.left_finger_bis_obj_adr = self.get_sensor_start_index("_left_finger_obj")
+        self.right_finger_bis_obj_adr = self.get_sensor_start_index("_right_finger_obj")
+        self.left_finger_bis_table_adr = self.get_sensor_start_index("_left_finger_table")
+        self.right_finger_bis_table_adr = self.get_sensor_start_index("_right_finger_table")
+        self.grasp_site_bis_adr = self.get_sensor_start_index("_trace_grasp_site")
+        self.ee_z_bis_adr = self.get_sensor_start_index("_ee_z")
+        self.ee_z_bis_slice = slice(self.ee_z_bis_adr, self.ee_z_bis_adr + 3)
+
+        self.obj_table_adr = self.get_sensor_start_index("obj_table")
+
+        # collision_avoidance sensors
+        self.arm_maximal_pos_slice = []
+        self.arm_bis_maximal_pos_slice = []
+        for sensor_name in [
+            "fr3_link1_pos",
+            "fr3_link2_pos",
+            "fr3_link3_pos",
+            "fr3_link4_pos",
+            "fr3_link5_pos",
+            "fr3_link6_pos",
+            "fr3_link7_pos",
+        ]:
+            idx = self.get_sensor_start_index(sensor_name) + np.arange(3)
+            self.arm_maximal_pos_slice.append(idx)
+
+        for sensor_name in [
+            "_fr3_link1_pos",
+            "_fr3_link2_pos",
+            "_fr3_link3_pos",
+            "_fr3_link4_pos",
+            "_fr3_link5_pos",
+            "_fr3_link6_pos",
+            "_fr3_link7_pos",
+        ]:
+            idx = self.get_sensor_start_index(sensor_name) + np.arange(3)
+            self.arm_bis_maximal_pos_slice.append(idx)
+
+        self.arm_maximal_pos_slice = np.concatenate(self.arm_maximal_pos_slice)
+        self.arm_bis_maximal_pos_slice = np.concatenate(self.arm_bis_maximal_pos_slice)
 
         # metadata that stores the current phase of the task
         self._data = mujoco.MjData(self.model)  # used for computing hypothetical sensor data
@@ -161,7 +215,17 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
     def check_sensor_dists(
         self,
         sensors: np.ndarray,
-        pair: Literal["left_finger_obj", "right_finger_obj", "left_finger_table", "right_finger_table", "obj_table"],
+        pair: Literal[
+            "left_finger_obj",
+            "right_finger_obj",
+            "left_finger_table",
+            "right_finger_table",
+            "left_finger_obj_bis",
+            "right_finger_obj_bis",
+            "left_finger_table_bis",
+            "right_finger_table_bis",
+            "obj_table",
+        ],
     ) -> np.ndarray:
         """Computes the distance between a specified pair of bodies.
 
@@ -180,11 +244,19 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
             i = self.left_finger_table_adr
         elif pair == "right_finger_table":
             i = self.right_finger_table_adr
+        elif pair == "left_finger_obj_bis":
+            i = self.left_finger_bis_obj_adr
+        elif pair == "right_finger_obj_bis":
+            i = self.right_finger_bis_obj_adr
+        elif pair == "left_finger_table_bis":
+            i = self.left_finger_bis_table_adr
+        elif pair == "right_finger_table_bis":
+            i = self.right_finger_bis_table_adr
         elif pair == "obj_table":
             i = self.obj_table_adr
         else:
             raise ValueError(
-                f"Invalid pair: {pair}. Must be one of 'left_finger_obj', 'right_finger_obj', or 'obj_table'."
+                f"Invalid pair: {pair}. Must be one of 'left_finger_obj', 'right_finger_obj', 'left_finger_table', 'right_finger_table', 'left_finger_obj_bis', 'right_finger_obj_bis', 'left_finger_table_bis', 'right_finger_table_bis', 'obj_table'."
             )
         dist = sensors[:, :, i]
         return dist
@@ -204,7 +276,7 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
 
         # check whether the phase is MOVE
         # obj_in_air = curr_sensor[self.obj_table_adr] > 0  # object is not touching the table
-        obj_in_air = curr_state[self.obj_pos_adr + 2] > 0.02 + 1e-3  # object z position is above the table
+        obj_in_air = curr_state[self.obj_pos_adr + 2] > BOX_SIZE + 1e-3  # object z position is above the table
         if obj_in_air:
             phase = Phase.MOVE  # if the object is in the air, we are in lift phase
 
@@ -218,10 +290,11 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         # if in_goal_xy and obj_table_dist <= 0:
         #     phase = Phase.HOMING
         obj_z_pos = curr_state[self.obj_pos_adr + 2]  # z position of the object
-        if in_goal_xy and obj_z_pos <= 0.02 + 1e-3:  # the cube is 4cm wide and we allow a tolerance
+        if in_goal_xy and obj_z_pos <= BOX_SIZE + 1e-3:  # the cube is 4cm wide and we allow a tolerance
             phase = Phase.HOMING
 
         self.phase = phase
+        print(f"Phase: {self.phase}")
 
     def reward(
         self,
@@ -250,6 +323,23 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         obj_table_dist = self.check_sensor_dists(sensors, "obj_table")  # noqa: F841
         grasp_site_pos = sensors[..., self.grasp_site_adr : self.grasp_site_adr + 3]  # (num_rollouts, T, 3)
         ee_z_axis = sensors[..., self.ee_z_slice]  # (num_rollouts, T, 3)
+
+        # collision avoidance
+        arm_maximal_pos = sensors[..., self.arm_maximal_pos_slice]  # (num_rollouts, T, 7*3)
+        arm_bis_maximal_pos = sensors[..., self.arm_bis_maximal_pos_slice]  # (num_rollouts, T, 7*3)
+        # reshape to (num_rollouts, T, 7, 3)
+        arm_maximal_pos = arm_maximal_pos.reshape(arm_maximal_pos.shape[0], arm_maximal_pos.shape[1], 7, 3)
+        arm_bis_maximal_pos = arm_bis_maximal_pos.reshape(
+            arm_bis_maximal_pos.shape[0], arm_bis_maximal_pos.shape[1], 7, 3
+        )
+        # tile and compute pairwise distances
+        arm_maximal_pos = np.expand_dims(arm_maximal_pos, axis=2)  # (num_rollouts, T, 1, 7, 3)
+        arm_bis_maximal_pos = np.expand_dims(arm_bis_maximal_pos, axis=3)  # (num_rollouts, T, 7, 1, 3)
+        # compute the distance between the two arms
+        arm_dist = np.linalg.norm(arm_maximal_pos - arm_bis_maximal_pos, axis=-1)  # (num_rollouts, T, 7, 7)
+        arm_dist = np.mean(arm_dist, axis=(1, 2, 3))  # (num_rollouts,)
+        # compute the reward for collision avoidance
+        rew_collision_avoidance = -np.exp(-arm_dist)  # (num_rollouts,)
 
         # querying states
         obj_pos = states[..., self.obj_pos_slice]  # (num_rollouts, T, 3)
@@ -302,6 +392,7 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         w_coll = config.global_weights.w_coll
         w_qvel = config.global_weights.w_qvel
         w_open = config.global_weights.w_open
+        w_collision_avoidance = config.global_weights.w_collision_avoidance
 
         rew_upright = -np.linalg.norm(ee_z_axis - np.array([[[0.0, 0.0, -1.0]]]), axis=-1).sum(axis=-1)
         rew_coll = (1 - hand_touching).sum(axis=-1)  # (num_rollouts,)
@@ -309,7 +400,13 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         rew_qvel = -(time_decay * qvel_norm).sum(axis=-1)
         rew_open = -((gripper_pos - 0.04) ** 2).sum(axis=-1)  # encourage the gripper to be open
 
-        rewards += w_upright * rew_upright + w_coll * rew_coll + w_qvel * rew_qvel + w_open * rew_open
+        rewards += (
+            w_upright * rew_upright
+            + w_coll * rew_coll
+            + w_qvel * rew_qvel
+            + w_open * rew_open
+            + w_collision_avoidance * rew_collision_avoidance
+        )
         return rewards
 
     def reset(self) -> None:

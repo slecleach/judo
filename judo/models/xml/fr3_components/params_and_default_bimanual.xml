@@ -48,24 +48,24 @@
   </equality>
 
   <actuator>
-    <position class="fr3" name="fr3_joint1" joint="fr3_joint1" kp="4500" kv="450"/>
-    <position class="fr3" name="fr3_joint2" joint="fr3_joint2" kp="4500" kv="450"/>
-    <position class="fr3" name="fr3_joint3" joint="fr3_joint3" kp="3500" kv="350"/>
-    <position class="fr3" name="fr3_joint4" joint="fr3_joint4" kp="3500" kv="350"/>
-    <position class="fr3" name="fr3_joint5" joint="fr3_joint5" kp="2000" kv="200"/>
-    <position class="fr3" name="fr3_joint6" joint="fr3_joint6" kp="2000" kv="200"/>
-    <position class="fr3" name="fr3_joint7" joint="fr3_joint7" kp="2000" kv="200"/>
+    <position class="fr3" name="fr3_joint1" joint="fr3_joint1" kp="45" kv="45"/>
+    <position class="fr3" name="fr3_joint2" joint="fr3_joint2" kp="45" kv="45"/>
+    <position class="fr3" name="fr3_joint3" joint="fr3_joint3" kp="35" kv="35"/>
+    <position class="fr3" name="fr3_joint4" joint="fr3_joint4" kp="35" kv="35"/>
+    <position class="fr3" name="fr3_joint5" joint="fr3_joint5" kp="20" kv="20"/>
+    <position class="fr3" name="fr3_joint6" joint="fr3_joint6" kp="20" kv="20"/>
+    <position class="fr3" name="fr3_joint7" joint="fr3_joint7" kp="20" kv="20"/>
     <position class="fr3" name="fr3_hand" joint="finger_joint1" ctrllimited="true" kp="500" kv="10" inheritrange="2.0"/>
   </actuator>
 
   <actuator>
-    <position class="fr3" name="_fr3_joint1" joint="_fr3_joint1" kp="4500" kv="450"/>
-    <position class="fr3" name="_fr3_joint2" joint="_fr3_joint2" kp="4500" kv="450"/>
-    <position class="fr3" name="_fr3_joint3" joint="_fr3_joint3" kp="3500" kv="350"/>
-    <position class="fr3" name="_fr3_joint4" joint="_fr3_joint4" kp="3500" kv="350"/>
-    <position class="fr3" name="_fr3_joint5" joint="_fr3_joint5" kp="2000" kv="200"/>
-    <position class="fr3" name="_fr3_joint6" joint="_fr3_joint6" kp="2000" kv="200"/>
-    <position class="fr3" name="_fr3_joint7" joint="_fr3_joint7" kp="2000" kv="200"/>
+    <position class="fr3" name="_fr3_joint1" joint="_fr3_joint1" kp="45" kv="45"/>
+    <position class="fr3" name="_fr3_joint2" joint="_fr3_joint2" kp="45" kv="45"/>
+    <position class="fr3" name="_fr3_joint3" joint="_fr3_joint3" kp="35" kv="35"/>
+    <position class="fr3" name="_fr3_joint4" joint="_fr3_joint4" kp="35" kv="35"/>
+    <position class="fr3" name="_fr3_joint5" joint="_fr3_joint5" kp="20" kv="20"/>
+    <position class="fr3" name="_fr3_joint6" joint="_fr3_joint6" kp="20" kv="20"/>
+    <position class="fr3" name="_fr3_joint7" joint="_fr3_joint7" kp="20" kv="20"/>
     <position class="fr3" name="_fr3_hand" joint="_finger_joint1" ctrllimited="true" kp="500" kv="10" inheritrange="2.0"/>
   </actuator>
 
@@ -78,17 +78,9 @@
     <distance name="left_finger_table" cutoff="1.0" body1="left_finger" body2="table"/>
     <distance name="right_finger_table" cutoff="1.0" body1="right_finger" body2="table"/>
 
-    <!-- sensor from object to table -->
-    <distance name="obj_table" cutoff="1.0" body1="object" body2="table"/>
 
     <!-- sensors for the arm/hand -->
     <framezaxis name="ee_z" objtype="body" objname="hand"/>
-
-    <!-- traces -->
-    <framepos name="trace_object" objtype="body" objname="object"/>
-    <framepos name="trace_grasp_site" objtype="site" objname="grasp_site"/>
-
-
 
 
     <!-- sensors from hand to object -->
@@ -101,5 +93,32 @@
 
     <!-- sensors for the arm/hand -->
     <framezaxis name="_ee_z" objtype="body" objname="_hand"/>
+
+    <!-- sensor from object to table -->
+    <distance name="obj_table" cutoff="1.0" body1="object" body2="table"/>
+
+    <!-- traces -->
+    <framepos name="trace_object" objtype="body" objname="object"/>
+    <framepos name="trace_grasp_site" objtype="site" objname="grasp_site"/>
+    <framepos name="_trace_grasp_site" objtype="site" objname="_grasp_site"/>
+
+
+    <!-- collision avoidance -->
+    <framepos name="fr3_link1_pos" objtype="body" objname="fr3_link1"/>
+    <framepos name="fr3_link2_pos" objtype="body" objname="fr3_link2"/>
+    <framepos name="fr3_link3_pos" objtype="body" objname="fr3_link3"/>
+    <framepos name="fr3_link4_pos" objtype="body" objname="fr3_link4"/>
+    <framepos name="fr3_link5_pos" objtype="body" objname="fr3_link5"/>
+    <framepos name="fr3_link6_pos" objtype="body" objname="fr3_link6"/>
+    <framepos name="fr3_link7_pos" objtype="body" objname="fr3_link7"/>
+
+    <framepos name="_fr3_link1_pos" objtype="body" objname="_fr3_link1"/>
+    <framepos name="_fr3_link2_pos" objtype="body" objname="_fr3_link2"/>
+    <framepos name="_fr3_link3_pos" objtype="body" objname="_fr3_link3"/>
+    <framepos name="_fr3_link4_pos" objtype="body" objname="_fr3_link4"/>
+    <framepos name="_fr3_link5_pos" objtype="body" objname="_fr3_link5"/>
+    <framepos name="_fr3_link6_pos" objtype="body" objname="_fr3_link6"/>
+    <framepos name="_fr3_link7_pos" objtype="body" objname="_fr3_link7"/>
+
   </sensor>
 </mujoco>

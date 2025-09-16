@@ -230,8 +230,8 @@ def set_default_fr3_bimanual_pick_overrides() -> None:
         "fr3_bimanual_pick",
         PredictiveSamplingConfig,
         {
-            "num_nodes": 8,
-            "num_rollouts": 64,
+            "num_nodes": 5,
+            "num_rollouts": 16,
             "use_noise_ramp": True,
             "noise_ramp": 4.0,
             "sigma": 0.2,
@@ -242,7 +242,7 @@ def set_default_fr3_bimanual_pick_overrides() -> None:
         CrossEntropyMethodConfig,
         {
             "num_nodes": 4,
-            "num_rollouts": 64,
+            "num_rollouts": 16,
             "num_elites": 3,
             "use_noise_ramp": True,
             "noise_ramp": 4.0,
@@ -255,7 +255,7 @@ def set_default_fr3_bimanual_pick_overrides() -> None:
         MPPIConfig,
         {
             "num_nodes": 4,
-            "num_rollouts": 64,
+            "num_rollouts": 16,
             "use_noise_ramp": True,
             "noise_ramp": 4.0,
             "sigma": 0.01,
