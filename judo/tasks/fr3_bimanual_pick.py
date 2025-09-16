@@ -26,7 +26,7 @@ BOX_SIZE = 0.02
 XML_PATH = str(MODEL_PATH / "xml/fr3_bimanual_pick.xml")
 QPOS_HOME = np.array(
     [
-        0.7, 0, BOX_SIZE, 1, 0, 0, 0,  # object
+        0.7, 0, 0.2, 1, 0, 0, 0,  # object
         0, -0.7854, 0.0, -2.3562, 0.0, 1.5708, 0.7854,  # arm
         0.04, 0.04,  # gripper, equality constrained
         0, -0.7854, 0.0, -2.3562, 0.0, 1.5708, 0.7854,  # arm_bis
@@ -141,6 +141,8 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
 
         arm_bis_pos_adr = self.get_joint_position_start_index("_fr3_joint1")
         self.arm_bis_pos_slice = slice(arm_bis_pos_adr, arm_bis_pos_adr + 9)  # 7 + 2 dofs for the gripper
+        print("arm_pos_slice", self.arm_pos_slice)
+        print("arm_bis_pos_slice", self.arm_bis_pos_slice)
 
         # sensors
         self.left_finger_obj_adr = self.get_sensor_start_index("left_finger_obj")
@@ -272,28 +274,29 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         # check the object z position
         # curr_sensor = self._data.sensordata  # (total_sensor_dim,)
 
-        phase = Phase.LIFT  # default phase
+        # phase = Phase.LIFT  # default phase
 
-        # check whether the phase is MOVE
-        # obj_in_air = curr_sensor[self.obj_table_adr] > 0  # object is not touching the table
-        obj_in_air = curr_state[self.obj_pos_adr + 2] > BOX_SIZE + 1e-3  # object z position is above the table
-        if obj_in_air:
-            phase = Phase.MOVE  # if the object is in the air, we are in lift phase
+        # # check whether the phase is MOVE
+        # # obj_in_air = curr_sensor[self.obj_table_adr] > 0  # object is not touching the table
+        # obj_in_air = curr_state[self.obj_pos_adr + 2] > BOX_SIZE + 1e-3  # object z position is above the table
+        # if obj_in_air:
+        #     phase = Phase.MOVE  # if the object is in the air, we are in lift phase
 
-        # check whether the phase is PLACE
-        in_goal_xy = self.in_goal_xy(curr_state, config)
-        if in_goal_xy and obj_in_air:
-            phase = Phase.PLACE  # if the object is in the goal xy, we are in place phase
+        # # check whether the phase is PLACE
+        # in_goal_xy = self.in_goal_xy(curr_state, config)
+        # if in_goal_xy and obj_in_air:
+        #     phase = Phase.PLACE  # if the object is in the goal xy, we are in place phase
 
-        # check whether the phase is HOMING
-        # obj_table_dist = curr_sensor[self.obj_table_adr]
-        # if in_goal_xy and obj_table_dist <= 0:
+        # # check whether the phase is HOMING
+        # # obj_table_dist = curr_sensor[self.obj_table_adr]
+        # # if in_goal_xy and obj_table_dist <= 0:
+        # #     phase = Phase.HOMING
+        # obj_z_pos = curr_state[self.obj_pos_adr + 2]  # z position of the object
+        # if in_goal_xy and obj_z_pos <= BOX_SIZE + 1e-3:  # the cube is 4cm wide and we allow a tolerance
         #     phase = Phase.HOMING
-        obj_z_pos = curr_state[self.obj_pos_adr + 2]  # z position of the object
-        if in_goal_xy and obj_z_pos <= BOX_SIZE + 1e-3:  # the cube is 4cm wide and we allow a tolerance
-            phase = Phase.HOMING
 
-        self.phase = phase
+        # self.phase = phase
+        self.phase = Phase.HOMING
         print(f"Phase: {self.phase}")
 
     def reward(
@@ -344,6 +347,7 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
         # querying states
         obj_pos = states[..., self.obj_pos_slice]  # (num_rollouts, T, 3)
         arm_pos = states[..., self.arm_pos_slice]  # (num_rollouts, T, 9)
+        arm_bis_pos = states[..., self.arm_bis_pos_slice]  # (num_rollouts, T, 9)
         xy_pos = states[..., :2]  # (num_rollouts, T, 2)
         z_obj = states[..., self.obj_pos_adr + 2]  # (num_rollouts, T)
         qvel = states[..., self.model.nq : self.model.nq + self.model.nv]  # (num_rollouts, T, nv)
@@ -352,10 +356,17 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
 
         # distances and errors
         q_arm_goal = QPOS_HOME[self.arm_pos_slice]  # (9,)
+        q_arm_bis_goal = QPOS_HOME[self.arm_bis_pos_slice]  # (9,)
+
         grasp_dist = ((grasp_site_pos - obj_pos) ** 2).sum(-1)  # (num_rollouts, T)
         pick_height_err = (z_obj - config.pick_height) ** 2  # (num_rollouts, T)
         obj_goal_pos_dist = np.linalg.norm(xy_pos - config.goal_pos, axis=-1)  # (num_rollouts, T)
-        home_dist = np.linalg.norm(arm_pos - q_arm_goal, axis=-1)  # (num_rollouts, T)
+
+        home_dist = 100 * np.linalg.norm(arm_pos - q_arm_goal, axis=-1) + 100 * np.linalg.norm(
+            arm_bis_pos - q_arm_bis_goal, axis=-1
+        )  # (num_rollouts, T)
+        # home_dist = 100 * np.linalg.norm(arm_pos - q_arm_goal, axis=-1)
+        # home_dist = 100 * np.linalg.norm(arm_bis_pos - q_arm_bis_goal, axis=-1)  # (num_rollouts, T)
 
         # contact checks
         left_finger_touching = left_finger_table_dist <= 0.0  # (num_rollouts, T)
@@ -407,6 +418,9 @@ class FR3BimanualPick(Task[FR3BimanualPickConfig]):
             + w_open * rew_open
             + w_collision_avoidance * rew_collision_avoidance
         )
+        print("rewards", rewards)
+        print("homing", home_dist.sum(axis=-1))
+        print("rewards + homing", rewards + home_dist.sum(axis=-1))
         return rewards
 
     def reset(self) -> None:
