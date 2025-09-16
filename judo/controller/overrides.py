@@ -87,9 +87,9 @@ def set_default_fr3_bimanual_pick_overrides() -> None:
         "fr3_bimanual_pick",
         ControllerConfig,
         {
-            "horizon": 1.0,
+            "horizon": 1.3,
             "spline_order": "linear",
             "max_num_traces": 3,
-            "control_freq": 20.0,
+            "control_freq": 40.0,
         },
     )
