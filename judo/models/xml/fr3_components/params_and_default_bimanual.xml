@@ -1,0 +1,124 @@
+<mujoco model="fr3_default">
+  <compiler angle="radian"/>
+  <option integrator="implicitfast" timestep="0.01" impratio="10.0"/>
+
+  <default>
+    <default class="fr3">
+      <!-- Overwritten in joints 5, 6, and 7. -->
+      <joint damping="0.21" armature="0.195" frictionloss="1.137"/>
+      <position inheritrange="1"/>
+
+      <!-- constraint stiffness -->
+    <geom solimp="0.98 0.99 0.01 0.001 1" solref="0.001 1" friction=".5"/>
+
+      <default class="finger">
+        <joint axis="0 1 0" type="slide" range="0 0.04"/>
+      </default>
+
+      <default class="visual">
+        <geom type="mesh" group="2" contype="0" conaffinity="0"/>
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3" mass="0" density="0" friction="0.5 0 0" priority="6"/>
+        <default class="fingertip_pad_collision_1">
+          <geom type="box" size="0.0085 0.004 0.0085" pos="0 0.0055 0.0445"/>
+        </default>
+        <default class="fingertip_pad_collision_2">
+          <geom type="box" size="0.003 0.002 0.003" pos="0.0055 0.002 0.05"/>
+        </default>
+        <default class="fingertip_pad_collision_3">
+          <geom type="box" size="0.003 0.002 0.003" pos="-0.0055 0.002 0.05"/>
+        </default>
+        <default class="fingertip_pad_collision_4">
+          <geom type="box" size="0.003 0.002 0.0035" pos="0.0055 0.002 0.0395"/>
+        </default>
+        <default class="fingertip_pad_collision_5">
+          <geom type="box" size="0.003 0.002 0.0035" pos="-0.0055 0.002 0.0395"/>
+        </default>
+      </default>
+      <site size="0.001" rgba="0.5 0.5 0.5 0.3" group="4"/>
+    </default>
+  </default>
+
+  <!-- <equality>
+    <joint joint1="finger_joint1" joint2="finger_joint2" polycoef="0 1"/>
+  </equality>
+  <equality>
+    <joint joint1="_finger_joint1" joint2="_finger_joint2" polycoef="0 1"/>
+  </equality> -->
+
+  <actuator>
+    <position class="fr3" name="fr3_joint1" joint="fr3_joint1" kp="135" kv="45"/>
+    <position class="fr3" name="fr3_joint2" joint="fr3_joint2" kp="135" kv="45"/>
+    <position class="fr3" name="fr3_joint3" joint="fr3_joint3" kp="105" kv="35"/>
+    <position class="fr3" name="fr3_joint4" joint="fr3_joint4" kp="105" kv="35"/>
+    <position class="fr3" name="fr3_joint5" joint="fr3_joint5" kp="60" kv="20"/>
+    <position class="fr3" name="fr3_joint6" joint="fr3_joint6" kp="60" kv="20"/>
+    <position class="fr3" name="fr3_joint7" joint="fr3_joint7" kp="60" kv="20"/>
+    <!-- <position class="fr3" name="fr3_hand" joint="finger_joint1" ctrllimited="true" kp="500" kv="10" inheritrange="2.0"/> -->
+  </actuator>
+
+  <actuator>
+    <position class="fr3" name="_fr3_joint1" joint="_fr3_joint1" kp="135" kv="45"/>
+    <position class="fr3" name="_fr3_joint2" joint="_fr3_joint2" kp="135" kv="45"/>
+    <position class="fr3" name="_fr3_joint3" joint="_fr3_joint3" kp="105" kv="35"/>
+    <position class="fr3" name="_fr3_joint4" joint="_fr3_joint4" kp="105" kv="35"/>
+    <position class="fr3" name="_fr3_joint5" joint="_fr3_joint5" kp="60" kv="20"/>
+    <position class="fr3" name="_fr3_joint6" joint="_fr3_joint6" kp="60" kv="20"/>
+    <position class="fr3" name="_fr3_joint7" joint="_fr3_joint7" kp="60" kv="20"/>
+    <!-- <position class="fr3" name="_fr3_hand" joint="_finger_joint1" ctrllimited="true" kp="500" kv="10" inheritrange="2.0"/> -->
+  </actuator>
+
+  <sensor>
+    <!-- sensors from hand to object -->
+    <!-- <distance name="left_finger_obj" cutoff="1.0" body1="left_finger" body2="object"/>
+    <distance name="right_finger_obj" cutoff="1.0" body1="right_finger" body2="object"/> -->
+
+    <!-- sensors from hand to table -->
+    <!-- <distance name="left_finger_table" cutoff="1.0" body1="left_finger" body2="table"/>
+    <distance name="right_finger_table" cutoff="1.0" body1="right_finger" body2="table"/> -->
+
+
+    <!-- sensors for the arm/hand -->
+    <framezaxis name="ee_z" objtype="body" objname="hand"/>
+
+
+    <!-- sensors from hand to object -->
+    <!-- <distance name="_left_finger_obj" cutoff="1.0" body1="_left_finger" body2="object"/>
+    <distance name="_right_finger_obj" cutoff="1.0" body1="_right_finger" body2="object"/> -->
+
+    <!-- sensors from hand to table -->
+    <!-- <distance name="_left_finger_table" cutoff="1.0" body1="_left_finger" body2="table"/>
+    <distance name="_right_finger_table" cutoff="1.0" body1="_right_finger" body2="table"/> -->
+
+    <!-- sensors for the arm/hand -->
+    <framezaxis name="_ee_z" objtype="body" objname="_hand"/>
+
+    <!-- sensor from object to table -->
+    <distance name="obj_table" cutoff="1.0" body1="object" body2="table"/>
+
+    <!-- traces -->
+    <framepos name="trace_object" objtype="body" objname="object"/>
+    <framepos name="trace_grasp_site" objtype="site" objname="grasp_site"/>
+    <framepos name="_trace_grasp_site" objtype="site" objname="_grasp_site"/>
+
+
+    <!-- collision avoidance -->
+    <framepos name="fr3_link1_pos" objtype="body" objname="fr3_link1"/>
+    <framepos name="fr3_link2_pos" objtype="body" objname="fr3_link2"/>
+    <framepos name="fr3_link3_pos" objtype="body" objname="fr3_link3"/>
+    <framepos name="fr3_link4_pos" objtype="body" objname="fr3_link4"/>
+    <framepos name="fr3_link5_pos" objtype="body" objname="fr3_link5"/>
+    <framepos name="fr3_link6_pos" objtype="body" objname="fr3_link6"/>
+    <framepos name="fr3_link7_pos" objtype="body" objname="fr3_link7"/>
+
+    <framepos name="_fr3_link1_pos" objtype="body" objname="_fr3_link1"/>
+    <framepos name="_fr3_link2_pos" objtype="body" objname="_fr3_link2"/>
+    <framepos name="_fr3_link3_pos" objtype="body" objname="_fr3_link3"/>
+    <framepos name="_fr3_link4_pos" objtype="body" objname="_fr3_link4"/>
+    <framepos name="_fr3_link5_pos" objtype="body" objname="_fr3_link5"/>
+    <framepos name="_fr3_link6_pos" objtype="body" objname="_fr3_link6"/>
+    <framepos name="_fr3_link7_pos" objtype="body" objname="_fr3_link7"/>
+
+  </sensor>
+</mujoco>

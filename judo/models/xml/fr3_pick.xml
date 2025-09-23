@@ -4,7 +4,8 @@
 
   <worldbody>
     <body name="table" pos="0.0 0.0 0.0" quat="1 0 0 0">
-      <geom name="table" type="box" size="0.75 1.25 0.01" pos="0.5 0 -0.01" rgba="0.8 0.8 0.8 1" />
+      <!-- <geom name="table" type="box" size="0.75 1.25 0.01" pos="0.5 0 -0.01" rgba="0.8 0.8 0.8 1" /> -->
+      <geom name="table_coll" type="plane" pos="0.5 0 0" size="40 40 40" conaffinity="1" condim="3"/>
     </body>
     <body name="object" pos="0.0 0.0 0.0" quat="1 0 0 0">
       <freejoint name="object_joint"/>

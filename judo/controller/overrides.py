@@ -79,3 +79,17 @@ def set_default_fr3_pick_overrides() -> None:
             "control_freq": 20.0,
         },
     )
+
+
+def set_default_fr3_bimanual_pick_overrides() -> None:
+    """Sets the default task-specific controller config overrides for the fr3 pick task."""
+    set_config_overrides(
+        "fr3_bimanual_pick",
+        ControllerConfig,
+        {
+            "horizon": 1.3,
+            "spline_order": "linear",
+            "max_num_traces": 3,
+            "control_freq": 40.0,
+        },
+    )

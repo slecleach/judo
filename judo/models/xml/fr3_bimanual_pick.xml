@@ -1,0 +1,31 @@
+<mujoco model="fr3_bimanual_pick">
+  <include file="fr3_components/assets.xml" />
+  <include file="fr3_components/params_and_default_bimanual.xml" />
+
+  <worldbody>
+    <body name="table" pos="0.0 0.0 0.0" quat="1 0 0 0">
+      <geom name="table" type="box" size="0.75 1.25 0.01" pos="0.5 0 -0.01" rgba="0.8 0.8 0.8 1" class="visual" />
+      <geom name="table_coll" type="plane" pos="0.5 0 0" size="40 40 40" conaffinity="1" condim="3"/>
+    </body>
+    <body name="shelf" pos="0.0 0.0 0.0" quat="1 0 0 0">
+      <geom name="shelf_0" type="box" size="0.3 0.35 0.05" pos="1.15 0 0.3" rgba="0.8 0.8 0.8 1" />
+      <geom name="shelf_1" type="box" size="0.3 0.05 0.05" pos="1.15 -0.3 0.4" rgba="0.8 0.8 0.8 1" />
+      <geom name="shelf_2" type="box" size="0.3 0.05 0.05" pos="1.15 0.3 0.4" rgba="0.8 0.8 0.8 1" />
+      <geom name="shelf_3" type="box" size="0.05 0.25 0.05" pos="1.40 0 0.4" rgba="0.8 0.8 0.8 1" />
+    </body>
+    <body name="object" pos="0.0 0.0 0.0" quat="1 0 0 0">
+      <inertial mass="10.0" pos="0.0 0.0 0.0" diaginertia="0.3 0.3 0.3"/>
+      <freejoint name="object_joint"/>
+      <geom name="cylinder_0" type="cylinder" size="0.175 0.075" pos="0 0 -0.125" rgba="0.68 0.85 0.9 0.9"/>
+      <geom name="cylinder_1" type="cylinder" size="0.15 0.05" pos="0 0 0" rgba="0.68 0.85 0.9 0.9"/>
+      <geom name="cylinder_2" type="cylinder" size="0.175 0.075" pos="0 0 0.125" rgba="0.68 0.85 0.9 0.9"/>
+      <geom name="cylinder_3" type="cylinder" size="0.03 0.03" pos="0 0 0.23" rgba="0.68 0.85 0.9 0.9"/>
+    </body>
+    <body name="fr3" pos="0.0 -0.25 0.0" quat="1 0 0 0">
+      <include file="fr3_components/fr3.xml" />
+    </body>
+    <body name="fr3_bis" pos="0.0 0.25 0.0" quat="1 0 0 0">
+      <include file="fr3_components/fr3_bis.xml" />
+    </body>
+  </worldbody>
+</mujoco>
