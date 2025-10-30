@@ -17,6 +17,9 @@
 * Added specification between different slider types.
 * Added guidelines on how to use the `Controller`. `Visualizer`, and `Simulation` objects
 
+## Dev
+* Modified release process so that any CODEOWNER can publish to pypi
+
 # v0.0.4
 
 ## Added
