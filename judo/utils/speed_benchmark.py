@@ -176,7 +176,7 @@ class SpeedBenchmark:
 if __name__ == "__main__":
     config = tyro.cli(SpeedBenchmarkConfig)
     benchmark = SpeedBenchmark(config)
-    # benchmark.benchmark_all()
-    benchmark.visualize_trajectory(10.0)
+    benchmark.benchmark_all()
+    # benchmark.visualize_trajectory(10.0)
 
 
