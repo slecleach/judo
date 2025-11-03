@@ -44,6 +44,7 @@ class SpeedBenchmarkConfig:
     model_path: str = field(default=str(MODEL_PATH / "xml/keith/scene.xml"))
     duration: List[float] = field(default_factory=lambda: [0.1, 0.2, 0.5, 1.0, 2.0, 3.0])
     num_envs: List[int] = field(default_factory=lambda: [1, 2, 4, 8, 16, 32, 48, 64])
+    visualize: bool = field(default=False)
 
 
 class SpeedBenchmark:
@@ -201,4 +202,5 @@ if __name__ == "__main__":
     config = tyro.cli(SpeedBenchmarkConfig)
     benchmark = SpeedBenchmark(config)
     benchmark.benchmark_all()
-    # benchmark.visualize_trajectory(10.0)
+    if config.visualize:
+        benchmark.visualize_trajectory(10.0)
