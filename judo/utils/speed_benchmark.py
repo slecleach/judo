@@ -5,6 +5,8 @@ import time
 from mujoco import MjModel, rollout, MjData
 import mujoco
 import tyro
+import mujoco.viewer
+
 
 from judo import MODEL_PATH
 
@@ -33,7 +35,8 @@ def get_state(model: MjModel, data: list[MjData]) -> np.ndarray:
 @dataclass
 class SpeedBenchmarkConfig:
     """A class to configure the speed benchmark."""
-    model_path: str = field(default=str(MODEL_PATH / "xml/cartpole.xml"))
+    # model_path: str = field(default=str(MODEL_PATH / "xml/cartpole.xml"))
+    model_path: str = field(default=str(MODEL_PATH / "xml/keith/scene.xml"))
     duration: List[float] = field(default_factory=lambda: [0.1, 0.2, 0.5, 1.0, 2.0, 3.0])
     num_envs: List[int] = field(default_factory=lambda: [1, 2, 4, 8, 16, 32, 48, 64])
 
@@ -46,8 +49,20 @@ class SpeedBenchmark:
         self.rollout_ = rollout.Rollout(nthread=config.num_envs[0])
         self.max_num_envs = max(config.num_envs)
         self.data = [MjData(self.model) for _ in range(self.max_num_envs)]
+        
+        # Print model keyframe information
+        if self.model.nkey > 0:
+            print(f"\nModel Keyframes:")
+            print(f"  Number of keyframes: {self.model.nkey}")
+            print(f"  Key times: {self.model.key_time}")
+            print(f"  First keyframe qpos: {self.model.key_qpos[0]}")
+            print(f"  First keyframe qvel: {self.model.key_qvel[0]}")
+            print(f"  First keyframe ctrl: {self.model.key_ctrl[0]}")
+        else:
+            print("\nModel has no keyframes defined.")
 
     def reset(self) -> None:
+        assert self.model.nkey > 0, "Model has no keyframes defined."
         for i in range(self.max_num_envs):
             mujoco.mj_resetData(self.model, self.data[i])
             self.data[i].time = self.model.key_time[0]
@@ -125,12 +140,43 @@ class SpeedBenchmark:
                 print(f"{duration:<15.3f} {num_envs:<12} {compute_time:<18.6f} {per_thread_real_time_factor:<30.2f}x {real_time_factor:<25.2f}x")
         
         print(f"{'-'*line_width}\n")
+
+    def visualize_trajectory(self, duration: float) -> None:
+        """
+        Visualize the trajectory of the robot using mujoco viewer.
         
+        Args:
+            duration: Physics simulation duration in seconds.
+        """
+        # Reset the simulation
+        self.reset()
+        data = self.data[0]  # Use first data instance for visualization
         
+        num_steps = int(duration / self.model.opt.timestep)
+        action = np.random.randn(1, num_steps, self.model.nu)
+        
+        # Create and launch the viewer
+        with mujoco.viewer.launch_passive(self.model, data) as viewer:
+            # Step through the simulation
+            for step in range(num_steps):
+                # Apply control action
+                data.ctrl[:] = action[0, step, :]
+                
+                # Step the simulation
+                mujoco.mj_step(self.model, data)
+                
+                # Sync viewer with simulation state
+                viewer.sync()
+                
+                # Small delay to make visualization visible (optional)
+                time.sleep(self.model.opt.timestep)
+
+
 
 if __name__ == "__main__":
     config = tyro.cli(SpeedBenchmarkConfig)
     benchmark = SpeedBenchmark(config)
-    benchmark.benchmark_all()
+    # benchmark.benchmark_all()
+    benchmark.visualize_trajectory(10.0)
 
 

@@ -1,0 +1,211 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: 078d73b5d2e9adfe12abdfb0 / workspace_id: ea8cfa794dc56d979f618f63 -->
+<mujoco model="config_and_output_dir">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <default>
+    <default class="config_and_output_dir">
+      <joint frictionloss="0.1" armature="0.005"/>
+      <position kp="5" dampratio="1"/>
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom group="3"/>
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <!-- Link rai_011991_middle_proximal_phalange__configuration_default -->
+    <body name="rai_011991_middle_proximal_phalange__configuration_default" pos="0 0 0" quat="1 0 0 0" childclass="config_and_output_dir">
+      <freejoint name="rai_011991_middle_proximal_phalange__configuration_default_freejoint"/>
+      <inertial pos="-0.000820001 -0.00798615 0.128274" mass="0.0629355" fullinertia="2.58671e-05 2.04531e-05 1.35009e-05 4.61558e-07 7.1602e-07 -9.64528e-06"/>
+      <!-- Part rai_011991_middle_proximal_phalange__configuration_default_parts -->
+      <geom type="mesh" class="visual" pos="-0.000820001 -0.00798615 0.128274" quat="1 0 0 0" mesh="rai_011991_middle_proximal_phalange__configuration_default_visual" material="rai_011991_middle_proximal_phalange__configuration_default_visual_material"/>
+      <geom type="mesh" class="collision" pos="-0.000820001 -0.00798615 0.128274" quat="1 0 0 0" mesh="rai_011991_middle_proximal_phalange__configuration_default_collision" material="rai_011991_middle_proximal_phalange__configuration_default_collision_material"/>
+      <!-- Link palm_main_structure -->
+      <body name="palm_main_structure" pos="1.46313e-17 -0.0225012 0.108544" quat="0.32102 -0.630037 -0.32102 0.630037">
+        <!-- Joint from rai_011991_middle_proximal_phalange__configuration_default to palm_main_structure -->
+        <joint axis="0 0 1" name="middle-proximal-right" type="hinge" range="0.0 1.5707963267948966"/>
+        <inertial pos="0.027936 0.0364995 -1.46321e-05" mass="0.150384" fullinertia="9.81143e-05 0.000230223 0.000229444 -5.29953e-05 -8.05926e-08 -2.60845e-09"/>
+        <!-- Part palm_main_structure_parts -->
+        <geom type="mesh" class="visual" pos="0.027936 0.0364995 -1.46321e-05" quat="0.32102 0.630037 0.32102 -0.630037" mesh="palm_main_structure_visual" material="palm_main_structure_visual_material"/>
+        <geom type="mesh" class="collision" pos="0.027936 0.0364995 -1.46321e-05" quat="0.32102 0.630037 0.32102 -0.630037" mesh="palm_main_structure_collision" material="palm_main_structure_collision_material"/>
+        <!-- Link rai_011950_thumb_swivel_phalange__configuration_default -->
+        <body name="rai_011950_thumb_swivel_phalange__configuration_default" pos="-2.77556e-17 0.03 -0.0326" quat="0.707107 -2.20013e-15 0.707107 1.60982e-15">
+          <!-- Joint from palm_main_structure to rai_011950_thumb_swivel_phalange__configuration_default -->
+          <joint axis="0 0 1" name="thumb-swivel-right" type="hinge" range="0.0 3.2288591161895095"/>
+          <inertial pos="-0.000976448 -0.0122137 0.00088688" mass="0.0401803" fullinertia="1.11854e-05 9.0482e-06 1.20885e-05 2.47376e-07 -1.81204e-08 -1.4015e-07"/>
+          <!-- Part rai_011950_thumb_swivel_phalange__configuration_default_parts -->
+          <geom type="mesh" class="visual" pos="-0.000976448 -0.0122137 0.00088688" quat="0.45399 0.891007 2.77556e-16 4.08767e-16" mesh="rai_011950_thumb_swivel_phalange__configuration_default_visual" material="rai_011950_thumb_swivel_phalange__configuration_default_visual_material"/>
+          <geom type="mesh" class="collision" pos="-0.000976448 -0.0122137 0.00088688" quat="0.45399 0.891007 2.77556e-16 4.08767e-16" mesh="rai_011950_thumb_swivel_phalange__configuration_default_collision" material="rai_011950_thumb_swivel_phalange__configuration_default_collision_material"/>
+          <!-- Link rai_011952_thumb_proximal_phalange__configuration_default -->
+          <body name="rai_011952_thumb_proximal_phalange__configuration_default" pos="-6.93889e-18 -0.03 -1.38778e-17" quat="2.60799e-15 -0.707107 4.44089e-16 -0.707107">
+            <!-- Joint from rai_011950_thumb_swivel_phalange__configuration_default to rai_011952_thumb_proximal_phalange__configuration_default -->
+            <joint axis="0 0 1" name="thumb-proximal-right" type="hinge" range="0.0 1.5707963267948966"/>
+            <inertial pos="0.000914026 0.00827526 -0.000939845" mass="0.0322511" fullinertia="4.89116e-06 3.70055e-06 4.77436e-06 1.56709e-07 -1.91125e-08 2.30444e-07"/>
+            <!-- Part rai_011952_thumb_proximal_phalange__configuration_default_parts -->
+            <geom type="mesh" class="visual" pos="0.000914026 0.00827526 -0.000939845" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011952_thumb_proximal_phalange__configuration_default_visual" material="rai_011952_thumb_proximal_phalange__configuration_default_visual_material"/>
+            <geom type="mesh" class="collision" pos="0.000914026 0.00827526 -0.000939845" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011952_thumb_proximal_phalange__configuration_default_collision" material="rai_011952_thumb_proximal_phalange__configuration_default_collision_material"/>
+            <!-- Link rai_011957_thumb_ad_ab_phalange__configuration_default -->
+            <body name="rai_011957_thumb_ad_ab_phalange__configuration_default" pos="0 0.023 6.93889e-18" quat="1.23108e-15 -0.707107 -2.22045e-15 -0.707107">
+              <!-- Joint from rai_011952_thumb_proximal_phalange__configuration_default to rai_011957_thumb_ad_ab_phalange__configuration_default -->
+              <joint axis="0 0 1" name="thumb-ab/ad-right" type="hinge" range="-0.17453292519943295 1.0471975511965976"/>
+              <inertial pos="-0.00203181 -0.0130198 0.000779492" mass="0.0588883" fullinertia="9.66416e-06 4.7311e-06 1.06276e-05 1.84735e-08 -9.30211e-08 -1.62284e-07"/>
+              <!-- Part rai_011957_thumb_ad_ab_phalange__configuration_default_parts -->
+              <geom type="mesh" class="visual" pos="-0.00203181 -0.0130198 0.000779492" quat="0.45399 0.891007 1.11022e-16 -6.80119e-16" mesh="rai_011957_thumb_ad_ab_phalange__configuration_default_visual" material="rai_011957_thumb_ad_ab_phalange__configuration_default_visual_material"/>
+              <geom type="mesh" class="collision" pos="-0.00203181 -0.0130198 0.000779492" quat="0.45399 0.891007 1.11022e-16 -6.80119e-16" mesh="rai_011957_thumb_ad_ab_phalange__configuration_default_collision" material="rai_011957_thumb_ad_ab_phalange__configuration_default_collision_material"/>
+              <!-- Link rai_011986_thumb_medial_phalange_middle__configuration_default -->
+              <body name="rai_011986_thumb_medial_phalange_middle__configuration_default" pos="-7.63278e-17 -0.025 2.35922e-16" quat="1.0555e-15 -0.707107 7.77156e-16 -0.707107">
+                <!-- Joint from rai_011957_thumb_ad_ab_phalange__configuration_default to rai_011986_thumb_medial_phalange_middle__configuration_default -->
+                <joint axis="0 0 1" name="thumb-medial-right" type="hinge" range="0.0 1.7453292519943295"/>
+                <inertial pos="0.00088656 0.0178471 0.000917262" mass="0.0387899" fullinertia="1.2725e-05 6.59946e-06 8.71932e-06 -1.18829e-07 1.13961e-08 5.70347e-07"/>
+                <!-- Part rai_011986_thumb_medial_phalange_middle__configuration_default_parts -->
+                <geom type="mesh" class="visual" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_visual" material="rai_011986_thumb_medial_phalange_middle__configuration_default_visual_material"/>
+                <geom type="mesh" class="collision" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_collision" material="rai_011986_thumb_medial_phalange_middle__configuration_default_collision_material"/>
+                <!-- Link rai_012004_thumb_distal_phalange__configuration_default -->
+                <body name="rai_012004_thumb_distal_phalange__configuration_default" pos="5.55112e-17 0.04 2.77556e-17" quat="1 1.15808e-16 2.28983e-16 3.15004e-15">
+                  <!-- Joint from rai_011986_thumb_medial_phalange_middle__configuration_default to rai_012004_thumb_distal_phalange__configuration_default -->
+                  <joint axis="0 0 1" name="thumb-distal-right" type="hinge" range="-0.5235987755982988 1.7453292519943295"/>
+                  <inertial pos="0.00127664 0.00858953 0.00122768" mass="0.0397689" fullinertia="9.02351e-06 2.95583e-06 8.09512e-06 -1.0173e-06 7.03501e-08 5.08561e-07"/>
+                  <!-- Part rai_012004_thumb_distal_phalange__configuration_default_parts -->
+                  <geom type="mesh" class="visual" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_visual" material="rai_012004_thumb_distal_phalange__configuration_default_visual_material"/>
+                  <geom type="mesh" class="collision" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_collision" material="rai_012004_thumb_distal_phalange__configuration_default_collision_material"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+        <!-- Link rai_011950_thumb_swivel_phalange__configuration_default_2 -->
+        <body name="rai_011950_thumb_swivel_phalange__configuration_default_2" pos="-1.38778e-16 0.03 0.0326" quat="6.72037e-19 -0.707107 -0 0.707107">
+          <!-- Joint from palm_main_structure to rai_011950_thumb_swivel_phalange__configuration_default_2 -->
+          <joint axis="0 0 1" name="pinky-swivel-right" type="hinge" range="-8.881784197001252e-16 3.2288591161895086"/>
+          <inertial pos="-0.000976448 0.0122137 -0.00088688" mass="0.0401803" fullinertia="1.11854e-05 9.0482e-06 1.20885e-05 -2.47376e-07 1.81204e-08 -1.4015e-07"/>
+          <!-- Part rai_011950_thumb_swivel_phalange__configuration_default_2_parts -->
+          <geom type="mesh" class="visual" pos="-0.000976448 0.0122137 -0.00088688" quat="0.891007 -0.45399 -0 -1.54696e-20" mesh="rai_011950_thumb_swivel_phalange__configuration_default_2_visual" material="rai_011950_thumb_swivel_phalange__configuration_default_2_visual_material"/>
+          <geom type="mesh" class="collision" pos="-0.000976448 0.0122137 -0.00088688" quat="0.891007 -0.45399 -0 -1.54696e-20" mesh="rai_011950_thumb_swivel_phalange__configuration_default_2_collision" material="rai_011950_thumb_swivel_phalange__configuration_default_2_collision_material"/>
+          <!-- Link rai_011991_middle_proximal_phalange__configuration_default_2 -->
+          <body name="rai_011991_middle_proximal_phalange__configuration_default_2" pos="-6.93889e-18 0.03 0" quat="0.707107 4.79587e-15 0.707107 5.21805e-15">
+            <!-- Joint from rai_011950_thumb_swivel_phalange__configuration_default_2 to rai_011991_middle_proximal_phalange__configuration_default_2 -->
+            <joint axis="0 0 1" name="pinky-proximal-right" type="hinge" range="0.0 1.5707963267948966"/>
+            <inertial pos="0.000146017 0.0244934 -0.000820001" mass="0.0629355" fullinertia="2.72244e-05 6.72964e-06 2.58671e-05 3.25417e-07 -4.74574e-08 8.50569e-07"/>
+            <!-- Part rai_011991_middle_proximal_phalange__configuration_default_2_parts -->
+            <geom type="mesh" class="visual" pos="0.000146017 0.0244934 -0.000820001" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011991_middle_proximal_phalange__configuration_default_2_visual" material="rai_011991_middle_proximal_phalange__configuration_default_2_visual_material"/>
+            <geom type="mesh" class="collision" pos="0.000146017 0.0244934 -0.000820001" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011991_middle_proximal_phalange__configuration_default_2_collision" material="rai_011991_middle_proximal_phalange__configuration_default_2_collision_material"/>
+            <!-- Link rai_011986_thumb_medial_phalange_middle__configuration_default_2 -->
+            <body name="rai_011986_thumb_medial_phalange_middle__configuration_default_2" pos="2.77556e-17 0.048 0" quat="1 -3.14047e-16 -2.21351e-15 3.56139e-15">
+              <!-- Joint from rai_011991_middle_proximal_phalange__configuration_default_2 to rai_011986_thumb_medial_phalange_middle__configuration_default_2 -->
+              <joint axis="0 0 1" name="pinky-medial-right" type="hinge" range="0.0 1.7453292519943295"/>
+              <inertial pos="0.00088656 0.0178471 0.000917262" mass="0.0387899" fullinertia="1.2725e-05 6.59946e-06 8.71932e-06 -1.18829e-07 1.13961e-08 5.70347e-07"/>
+              <!-- Part rai_011986_thumb_medial_phalange_middle__configuration_default_2_parts -->
+              <geom type="mesh" class="visual" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_2_visual" material="rai_011986_thumb_medial_phalange_middle__configuration_default_2_visual_material"/>
+              <geom type="mesh" class="collision" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_2_collision" material="rai_011986_thumb_medial_phalange_middle__configuration_default_2_collision_material"/>
+              <!-- Link rai_012004_thumb_distal_phalange__configuration_default_2 -->
+              <body name="rai_012004_thumb_distal_phalange__configuration_default_2" pos="1.38778e-17 0.04 4.16334e-17" quat="1 5.93817e-16 -1.58207e-15 -1.79613e-14">
+                <!-- Joint from rai_011986_thumb_medial_phalange_middle__configuration_default_2 to rai_012004_thumb_distal_phalange__configuration_default_2 -->
+                <joint axis="0 0 1" name="pinky-distal-right" type="hinge" range="-0.5235987755982988 1.7453292519943295"/>
+                <inertial pos="0.00127664 0.00858953 0.00122768" mass="0.0397689" fullinertia="9.02351e-06 2.95583e-06 8.09512e-06 -1.0173e-06 7.03501e-08 5.08561e-07"/>
+                <!-- Part rai_012004_thumb_distal_phalange__configuration_default_2_parts -->
+                <geom type="mesh" class="visual" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_2_visual" material="rai_012004_thumb_distal_phalange__configuration_default_2_visual_material"/>
+                <geom type="mesh" class="collision" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_2_collision" material="rai_012004_thumb_distal_phalange__configuration_default_2_collision_material"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <!-- Link rai_011986_thumb_medial_phalange_middle__configuration_default_3 -->
+      <body name="rai_011986_thumb_medial_phalange_middle__configuration_default_3" pos="2.08167e-17 0.00571253 0.147377" quat="0.630037 0.32102 0.630037 0.32102">
+        <!-- Joint from rai_011991_middle_proximal_phalange__configuration_default to rai_011986_thumb_medial_phalange_middle__configuration_default_3 -->
+        <joint axis="0 0 1" name="middle-medial-right" type="hinge" range="0.0 1.7453292519943295"/>
+        <inertial pos="0.00088656 0.0178471 0.000917262" mass="0.0387899" fullinertia="1.2725e-05 6.59946e-06 8.71932e-06 -1.18829e-07 1.13961e-08 5.70347e-07"/>
+        <!-- Part rai_011986_thumb_medial_phalange_middle__configuration_default_3_parts -->
+        <geom type="mesh" class="visual" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_3_visual" material="rai_011986_thumb_medial_phalange_middle__configuration_default_3_visual_material"/>
+        <geom type="mesh" class="collision" pos="0.00088656 0.0178471 0.000917262" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_011986_thumb_medial_phalange_middle__configuration_default_3_collision" material="rai_011986_thumb_medial_phalange_middle__configuration_default_3_collision_material"/>
+        <!-- Link rai_012004_thumb_distal_phalange__configuration_default_3 -->
+        <body name="rai_012004_thumb_distal_phalange__configuration_default_3" pos="-2.77556e-17 0.04 2.15512e-17" quat="1 7.14553e-17 -0 -8.30933e-15">
+          <!-- Joint from rai_011986_thumb_medial_phalange_middle__configuration_default_3 to rai_012004_thumb_distal_phalange__configuration_default_3 -->
+          <joint axis="0 0 1" name="middle-distal-right" type="hinge" range="-0.5235987755982988 1.7453292519943295"/>
+          <inertial pos="0.00127664 0.00858953 0.00122768" mass="0.0397689" fullinertia="9.02351e-06 2.95583e-06 8.09512e-06 -1.0173e-06 7.03501e-08 5.08561e-07"/>
+          <!-- Part rai_012004_thumb_distal_phalange__configuration_default_3_parts -->
+          <geom type="mesh" class="visual" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_3_visual" material="rai_012004_thumb_distal_phalange__configuration_default_3_visual_material"/>
+          <geom type="mesh" class="collision" pos="0.00127664 0.00858953 0.00122768" quat="0.630037 -0.32102 -0.630037 -0.32102" mesh="rai_012004_thumb_distal_phalange__configuration_default_3_collision" material="rai_012004_thumb_distal_phalange__configuration_default_3_collision_material"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <!-- Exclude collisions between the palm and selected proximal phalanges-->
+    <exclude body1="palm_main_structure" body2="rai_011952_thumb_proximal_phalange__configuration_default"/>
+    <exclude body1="palm_main_structure" body2="rai_011991_middle_proximal_phalange__configuration_default_2"/>
+    <exclude body1="palm_main_structure" body2="rai_011957_thumb_ad_ab_phalange__configuration_default"/>
+  </contact>
+  <asset>
+    <mesh file="merged/rai_011950_thumb_swivel_phalange__configuration_default_collision.stl"/>
+    <mesh file="merged/rai_011950_thumb_swivel_phalange__configuration_default_visual.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_2_collision.stl"/>
+    <mesh file="merged/rai_011950_thumb_swivel_phalange__configuration_default_2_visual.stl"/>
+    <mesh file="merged/palm_main_structure_visual.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_3_collision.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_3_visual.stl"/>
+    <mesh file="merged/rai_011991_middle_proximal_phalange__configuration_default_visual.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_2_collision.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_2_visual.stl"/>
+    <mesh file="merged/rai_011991_middle_proximal_phalange__configuration_default_2_visual.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_visual.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_3_visual.stl"/>
+    <mesh file="merged/rai_011952_thumb_proximal_phalange__configuration_default_visual.stl"/>
+    <mesh file="merged/palm_main_structure_collision.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_3_collision.stl"/>
+    <mesh file="merged/rai_011950_thumb_swivel_phalange__configuration_default_2_collision.stl"/>
+    <mesh file="merged/rai_011957_thumb_ad_ab_phalange__configuration_default_visual.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_2_visual.stl"/>
+    <mesh file="merged/rai_011952_thumb_proximal_phalange__configuration_default_collision.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_visual.stl"/>
+    <mesh file="merged/rai_011991_middle_proximal_phalange__configuration_default_2_collision.stl"/>
+    <mesh file="merged/rai_011986_thumb_medial_phalange_middle__configuration_default_collision.stl"/>
+    <mesh file="merged/rai_011957_thumb_ad_ab_phalange__configuration_default_collision.stl"/>
+    <mesh file="merged/rai_011991_middle_proximal_phalange__configuration_default_collision.stl"/>
+    <mesh file="merged/rai_012004_thumb_distal_phalange__configuration_default_collision.stl"/>
+    <material name="rai_011991_middle_proximal_phalange__configuration_default_visual_material" rgba="0.501983 0.434077 0.653763 1"/>
+    <material name="rai_011991_middle_proximal_phalange__configuration_default_collision_material" rgba="0.501983 0.434077 0.653763 1"/>
+    <material name="palm_main_structure_visual_material" rgba="0.687346 0.610193 0.356372 1"/>
+    <material name="palm_main_structure_collision_material" rgba="0.687346 0.610193 0.356372 1"/>
+    <material name="rai_011950_thumb_swivel_phalange__configuration_default_visual_material" rgba="0.559792 0.679225 0.798935 1"/>
+    <material name="rai_011950_thumb_swivel_phalange__configuration_default_collision_material" rgba="0.559792 0.679225 0.798935 1"/>
+    <material name="rai_011952_thumb_proximal_phalange__configuration_default_visual_material" rgba="0.509887 0.442442 0.65078 1"/>
+    <material name="rai_011952_thumb_proximal_phalange__configuration_default_collision_material" rgba="0.509887 0.442442 0.65078 1"/>
+    <material name="rai_011957_thumb_ad_ab_phalange__configuration_default_visual_material" rgba="0.608289 0.613476 0.609294 1"/>
+    <material name="rai_011957_thumb_ad_ab_phalange__configuration_default_collision_material" rgba="0.608289 0.613476 0.609294 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_visual_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_collision_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_visual_material" rgba="0.682648 0.731881 0.558733 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_collision_material" rgba="0.682648 0.731881 0.558733 1"/>
+    <material name="rai_011950_thumb_swivel_phalange__configuration_default_2_visual_material" rgba="0.559792 0.679225 0.798935 1"/>
+    <material name="rai_011950_thumb_swivel_phalange__configuration_default_2_collision_material" rgba="0.559792 0.679225 0.798935 1"/>
+    <material name="rai_011991_middle_proximal_phalange__configuration_default_2_visual_material" rgba="0.501983 0.434077 0.653763 1"/>
+    <material name="rai_011991_middle_proximal_phalange__configuration_default_2_collision_material" rgba="0.501983 0.434077 0.653763 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_2_visual_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_2_collision_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_2_visual_material" rgba="0.682648 0.731881 0.558733 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_2_collision_material" rgba="0.682648 0.731881 0.558733 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_3_visual_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_011986_thumb_medial_phalange_middle__configuration_default_3_collision_material" rgba="0.673909 0.503123 0.319648 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_3_visual_material" rgba="0.682648 0.731881 0.558733 1"/>
+    <material name="rai_012004_thumb_distal_phalange__configuration_default_3_collision_material" rgba="0.682648 0.731881 0.558733 1"/>
+  </asset>
+  <actuator>
+    <position class="config_and_output_dir" name="middle-proximal-right" joint="middle-proximal-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="thumb-swivel-right" joint="thumb-swivel-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="thumb-proximal-right" joint="thumb-proximal-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="thumb-ab/ad-right" joint="thumb-ab/ad-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="thumb-medial-right" joint="thumb-medial-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="thumb-distal-right" joint="thumb-distal-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="pinky-swivel-right" joint="pinky-swivel-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="pinky-proximal-right" joint="pinky-proximal-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="pinky-medial-right" joint="pinky-medial-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="pinky-distal-right" joint="pinky-distal-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="middle-medial-right" joint="middle-medial-right" inheritrange="1"/>
+    <position class="config_and_output_dir" name="middle-distal-right" joint="middle-distal-right" inheritrange="1"/>
+  </actuator>
+  <equality/>
+</mujoco>
