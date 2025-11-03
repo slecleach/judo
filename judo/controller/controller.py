@@ -14,7 +14,7 @@ from judo.config import OverridableConfig
 from judo.gui import slider
 from judo.optimizers import Optimizer, OptimizerConfig, get_registered_optimizers
 from judo.tasks import Task, TaskConfig, get_registered_tasks
-from judo.utils.mujoco import RolloutBackend, make_model_data_pairs
+from judo.utils.mujoco_utils import RolloutBackend, make_model_data_pairs
 from judo.utils.normalization import (
     IdentityNormalizer,
     Normalizer,
