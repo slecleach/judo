@@ -42,4 +42,10 @@
     <framepos name="trace_pole" objtype="site" objname="trace_pole" />
   </sensor>
 
+  <keyframe>
+    <key name="initial_state" time="0" qpos="0 0.05" qvel="0 0" ctrl="0"/>
+  </keyframe>
+
+
+
 </mujoco>
