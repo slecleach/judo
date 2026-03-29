@@ -71,6 +71,7 @@ dev = [
     "pytest-cov",
     "pytest-xdist",
     "ruff",
+    "tyro",
 ]
 
 [tool.coverage.run]
